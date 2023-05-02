@@ -26,7 +26,7 @@ func TestScripts(t *testing.T) {
 func TestMain(m *testing.M) {
 	os.Exit(
 		testscript.RunMain(m, map[string]func() int{
-			"gomaintemplate": func() int {
+			"myecho": func() int {
 				fmt.Println(strings.Join(os.Args[1:], " "))
 				time.Sleep(10 * time.Millisecond)
 				return 0
