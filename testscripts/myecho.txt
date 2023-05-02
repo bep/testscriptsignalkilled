@@ -1,2 +1,3 @@
 myecho 'This is a test.'
 stdout 'This is a test.'
+stderr 'Language: en Greek: false'

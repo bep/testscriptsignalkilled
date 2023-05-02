@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"testing"
-	"time"
+	"unicode"
 
 	"github.com/bep/helpers/envhelpers"
 	"github.com/rogpeppe/go-internal/testscript"
+	"golang.org/x/text/language"
 )
 
 func TestScripts(t *testing.T) {
@@ -24,14 +26,27 @@ func TestScripts(t *testing.T) {
 }
 
 func TestMain(m *testing.M) {
+	// This is about https://github.com/rogpeppe/go-internal/issues/200
+	// There seem to be a timing issue between writing all the commands to disk and running them.
+	// To test this, we need to have some commands that take some time to biuld and write to disk.
+	commands := map[string]func() int{
+		// This is the command we're calling.
+		"myecho": func() int {
+			// Include some large Go packages.
+			en := language.English
+			log.Println("Language:", en.String(), "Greek:", unicode.Is(unicode.Greek, 'A'))
+			fmt.Println(strings.Join(os.Args[1:], " "))
+			return 0
+		},
+	}
+
+	for i := 0; i < 50; i++ {
+		// Add some more dummy commands.
+		commands[fmt.Sprintf("myecho%d_", i)] = commands["myecho"]
+	}
+
 	os.Exit(
-		testscript.RunMain(m, map[string]func() int{
-			"myecho": func() int {
-				fmt.Println(strings.Join(os.Args[1:], " "))
-				time.Sleep(10 * time.Millisecond)
-				return 0
-			},
-		}),
+		testscript.RunMain(m, commands),
 	)
 }
 
