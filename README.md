@@ -1,2 +1,1 @@
-# gomaintemplate
-Just a simple main() Go program template.
+Run [testloop.sh](testloop.sh) on a MacBook Pro with a recently updated MacOS should fail.
