@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 
 	for i := 0; i < 50; i++ {
 		// Add some more dummy commands.
-		commands[fmt.Sprintf("myecho%d_", i)] = commands["myecho"]
+		commands[fmt.Sprintf("myecho%d", i)] = commands["myecho"]
 	}
 
 	os.Exit(

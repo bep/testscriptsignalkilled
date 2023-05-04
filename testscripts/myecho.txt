@@ -1,3 +1,5 @@
 myecho 'This is a test.'
 stdout 'This is a test.'
+myecho32 'This is another test.'
+stdout 'This is another test.'
 stderr 'Language: en Greek: false'
